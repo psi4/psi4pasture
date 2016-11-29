@@ -26,7 +26,6 @@
 #
 
 import os
-import psi4.core
 
 _pasture_dir = os.path.split(os.path.abspath(__file__))[0]
 ccsort_sofile = _pasture_dir + '/' + 'ccsort.so'

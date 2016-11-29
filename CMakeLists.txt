@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.0 FATAL_ERROR)
-project(psi4-pasture LANGUAGES C CXX VERSION 0.0.1)
+project(psi4pasture LANGUAGES C CXX VERSION 0.0.1)
 
 # sortout transqt2/ccsort interdependence
 if(ENABLE_transqt2)

@@ -36,7 +36,7 @@ __version__ = '0.1'
 __author__  = 'Psi4 Development Team'
 
 
-from .metadata import ccsort_sofile, transqt2_sofile
+from .locations import ccsort_sofile, transqt2_sofile
 import psi4.core
 
 psi4.core.plugin_load(ccsort_sofile)

@@ -26,15 +26,24 @@
 #
 
 """
-Module with functions that can be used in proc.py
+This module contains functions that define runtime module execution sequences
+for legacy modules within psi4pasture.
 """
 
-from __future__ import absolute_import
-
 import psi4.core
-from .metadata import ccsort_sofile
-from .metadata import transqt2_sofile
+from .locations import ccsort_sofile,transqt2_sofile
 
 def ccsort_transqt2(ref_wfn):
+    """ transqt2/ccsort runtime module execution sequence (replacement for cctransort)
+
+    :examples:
+    >>> # [1] Coupled-cluster singles and doubles calculation
+    >>> # using transqt2/ccsort inplace of cctransort
+
+    >>> molecule H2 {\n0 1\nH \nH 1 0.74\n}
+    >>> set basis cc-PVDZ
+    >>> set run_cctransort false
+    >>> energy('ccsd')
+    """
     psi4.core.plugin(transqt2_sofile,ref_wfn)
     psi4.core.plugin(ccsort_sofile,ref_wfn)
