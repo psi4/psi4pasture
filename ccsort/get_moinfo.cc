@@ -90,13 +90,22 @@ void get_moinfo(void)
         escf = wfn->reference_wavefunction()->reference_energy();
     else
         escf = wfn->reference_energy();
-    moinfo.sopi = wfn->nsopi();
-    moinfo.orbspi = wfn->nmopi();
-    moinfo.openpi = wfn->soccpi();
-    // We copy this one because we modify its contents
+    moinfo.sopi   = init_int_array(moinfo.nirreps);
+    moinfo.orbspi = init_int_array(moinfo.nirreps);
+    moinfo.openpi = init_int_array(moinfo.nirreps);
     moinfo.clsdpi = init_int_array(moinfo.nirreps);
+    moinfo.frdocc = init_int_array(moinfo.nirreps);
+    moinfo.fruocc = init_int_array(moinfo.nirreps);
     for(int h = 0; h < moinfo.nirreps; ++h)
-        moinfo.clsdpi[h] = wfn->doccpi()[h];
+    {
+      moinfo.clsdpi[h] = wfn->doccpi()[h];
+      moinfo.sopi[h]   = wfn->nsopi()[h];
+      moinfo.orbspi[h] = wfn->nmopi()[h];
+      moinfo.openpi[h] = wfn->soccpi()[h];
+      moinfo.frdocc[h] = wfn->frzcpi()[h];
+      moinfo.fruocc[h] = wfn->frzvpi()[h];
+
+    }
 
     // This is for the local-CC simulation codes only; thus symmetry = C1
     if(params.ref == 0) moinfo.scf = wfn->Ca()->pointer();
@@ -104,8 +113,6 @@ void get_moinfo(void)
     /* Dump the reference wave function ID to CC_INFO */
     psio_write_entry(PSIF_CC_INFO, "Reference Wavefunction", (char *) &(params.ref), sizeof(int));
 
-    moinfo.frdocc = wfn->frzcpi();
-    moinfo.fruocc = wfn->frzvpi();
 
     moinfo.nfzc = moinfo.nfzv = 0;
     for(i=0; i < moinfo.nirreps; i++) {
